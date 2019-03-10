@@ -42,9 +42,3 @@ Are you actually considering using this package? I hope not. This is just an exe
 [elm-bot-lines]: https://ivanceras.github.io/elm-examples/elm-bot-lines/
 [elm-bot-lines-gh]: https://github.com/ivanceras/elm-examples/tree/master/elm-bot-lines
 [svgbob]: https://github.com/ivanceras/svgbob
-
-## TODO
-
-- [x] push
-- [x] add git repo uri to package.json
-- [x] publish to npm
