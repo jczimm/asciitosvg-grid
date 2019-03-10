@@ -1,0 +1,24 @@
+<html>
+
+<head>
+	<title>Ascii to SVG</title>
+	<script src="main.js"> </script>
+</head>
+
+<body>
+	<div id="elm"></div>
+	<script>
+		const app = Elm.Main.embed(document.getElementById('elm'));
+		const getSvg = asciiText => new Promise((ok) => {
+			app.ports.receiveAsciiText.send(asciiText);
+			const svg = document.querySelector('svg');
+			svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+			svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+			setTimeout(() => ok(svg.outerHTML), 100);
+			// HACK (well... this entire thing is a hack)
+			// this is just waiting for the svg to update...
+		});
+	</script>
+</body>
+
+</html>

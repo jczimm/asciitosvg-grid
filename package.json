@@ -1,0 +1,23 @@
+{
+  "name": "asciitosvg-grid",
+  "version": "0.0.1",
+  "description": "basic ascii-to-svg renderer",
+  "main": "index.js",
+  "bin": {
+    "asciitosvg": "./bin/asciitosvg"
+  },
+  "author": "jczimm",
+  "license": "MIT",
+  "dependencies": {
+    "get-stdin": "^6.0.0",
+    "puppeteer": "^1.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jczimm/asciitosvg-grid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jczimm/asciitosvg-grid/issues"
+  },
+  "homepage": "https://github.com/jczimm/asciitosvg-grid"
+}
