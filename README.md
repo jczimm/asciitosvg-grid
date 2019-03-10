@@ -45,6 +45,6 @@ Are you actually considering using this package? I hope not. This is just an exe
 
 ## TODO
 
-- [ ] push
+- [x] push
 - [x] add git repo uri to package.json
 - [ ] publish to npm
