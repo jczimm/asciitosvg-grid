@@ -29,7 +29,11 @@ $ asciitosvg < input.txt > output.svg
 
 ### Are you really using Puppeteer to open a webpage running a modified version of an ancient Elm example app rather than trying to extract the core convert function from the app's source?
 
-Are you actually considering using this package? I hope not. This is just an executable I created to replace going to [this page][elm-bot-lines] every time I wanted to tweak my legacy ascii diagrams. If you want an ascii-to-svg renderer, you should probably use [svgbob][svgbob] (by the same author as [elm-bot-lines][elm-bot-lines]).
+Are you actually considering using this package? I hope not. This is just an executable I created to replace going to [this page][elm-bot-lines] every time I wanted to tweak my legacy ascii diagrams. If you want an ascii-to-svg renderer, you should probably use [svgbob][svgbob] (by the same author as [elm-bot-lines][elm-bot-lines]), which comes with its own executable:
+
+```sh
+cargo install --git https://github.com/ivanceras/svgbob/ --path svgbob_cli
+```
 
 <!-- ### Do you do anything more respectable?
 
