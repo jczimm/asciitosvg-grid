@@ -1,6 +1,6 @@
 # asciitosvg-grid
 
-Basic ascii-to-svg renderer (executable wrapper for [ivanceras/elm-examples/elm-bot-lines][elm-bot-lines-gh].
+Basic ascii-to-svg renderer (executable wrapper for [ivanceras/elm-examples/elm-bot-lines][elm-bot-lines-gh]).
 
 The svg output is aligned to a grid, with all text in the system-default `monospace` font.
 
