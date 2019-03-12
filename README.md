@@ -108,3 +108,5 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 - [ ] accept color option (to make the lines and text white, instead of black, for example)
 - [ ] add support for using svgbob instead of asciitosvg for renderer
 - [ ] submit <asciitosvg.now.sh> to \[awesome-zeit\]
+
+- [ ] disable Now deployment automatic aliasing to asciitosvg.now.sh; it should only be able to be set manually (so a failed deploy doesn't automatically break images everywhere)
