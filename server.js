@@ -67,11 +67,14 @@ app.use(async (ctx, next) => {
 });
 
 // respond svg
-app.use((ctx, next) => {
+app.use((ctx) => {
   ctx.type = 'image/svg+xml';
   ctx.body = ctx.svgOutput;
 });
 
-app.listen(3000);
-
-console.log('Listening...');
+if (process.env.NOW) {
+  module.exports = app.callback();
+} else {
+  app.listen(3000);
+  console.log('Listening...');
+}

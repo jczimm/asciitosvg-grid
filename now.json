@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "builds": [
+      { "src": "server.js", "use": "@now/node" }
+    ],
+    "routes": [
+      { "src": "/[\s\S]*", "dest": "/server.js" }
+    ],
+    "alias": "asciitosvg.now.sh"
+  }
