@@ -59,7 +59,7 @@ const getSvgFromAscii = async (asciiInput) => {
   const browser = await createBrowser();
   const page = await browser.newPage();
   await page.goto(PAGE_URL);
-  const svg = await page.evaluate(async ascii => getSvg(ascii), asciiInput);
+  const svg = await page.evaluate(ascii => window.getSvg(ascii), asciiInput);
   await browser.close();
   return await optimizeSvg(svg);
 };
