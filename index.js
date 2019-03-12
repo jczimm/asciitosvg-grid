@@ -58,7 +58,7 @@ const optimizeSvg = async (svg, { styleTag = false } = {}) => {
 const getSvgFromAscii = async (asciiInput) => {
   const browser = await createBrowser();
   const page = await browser.newPage();
-  await page.goto(PAGE_URL);
+  await page.goto(PAGE_URL, { waitUntil: 'networkidle0' });
   const svg = await page.evaluate(ascii => getSvg(ascii), asciiInput);
   await browser.close();
   return await optimizeSvg(svg);
