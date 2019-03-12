@@ -5,8 +5,8 @@ const SVGO = require('svgo');
 // I don't think there will ever be a <style> in the output already, but just in case... they're optimal here
 const svgo = new SVGO({ plugins: [{ inlineStyles: false }] });
 
-const PAGE_PATH = join(__dirname, 'asciitosvg-web/index.html');
-const PAGE_URL = `file://${PAGE_PATH}`;
+const getAbsoluteFileUri = relPath => `file://${join(__dirname, relPath)}`;
+const PAGE_URL = getAbsoluteFileUri('asciitosvg-web/index.html')
 
 const styles = {
   'text': {
@@ -58,23 +58,7 @@ const optimizeSvg = async (svg, { styleTag = false } = {}) => {
 const getSvgFromAscii = async (asciiInput) => {
   const browser = await createBrowser();
   const page = await browser.newPage();
-
-  // TEMP
-  await page.setRequestInterception(true);
-  page.on('request', request => {
-    console.log(request.url());
-    request.continue();
-  });
-  page.on('requestfailed', request => {
-    console.log(request.url() + ' ' + request.failure().errorText);
-  });
-  page.on('console', msg => {
-    for (let i = 0; i < msg.args().length; ++i)
-      console.log(`${i}: ${msg.args()[i]}`);
-  });
-
   await page.goto(PAGE_URL);
-
   const svg = await page.evaluate(ascii => window.getSvg(ascii), asciiInput);
   await browser.close();
   return await optimizeSvg(svg);
