@@ -5,8 +5,11 @@ const SVGO = require('svgo');
 // I don't think there will ever be a <style> in the output already, but just in case... they're optimal here
 const svgo = new SVGO({ plugins: [{ inlineStyles: false }] });
 
-const getAbsoluteFileUri = relPath => `file://${join(__dirname, relPath)}`;
-const PAGE_URL = getAbsoluteFileUri('asciitosvg-web/index.html')
+// const getAbsoluteFileUri = relPath => `file://${join(__dirname, relPath)}`;
+// const PAGE_URL = getAbsoluteFileUri('asciitosvg-web/index.html')
+
+const PAGE_PATH = join(__dirname, 'asciitosvg-web/index.html');
+const PAGE_URL = `file://${PAGE_PATH}`;
 
 const styles = {
   'text': {
