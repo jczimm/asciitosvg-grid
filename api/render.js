@@ -1,6 +1,11 @@
 const Koa = require('koa');
 const compose = require('koa-compose');
-const { parser, getSvg, helpers: { leverageCache, handleError, CLIENT_ERROR } } = require('..');
+const { parser, getSvg, helpers: {
+  leverageCache,
+  handleError,
+  CLIENT_ERROR,
+  urlParamsParser,
+} } = require('..');
 
 const app = new Koa();
 
@@ -26,11 +31,12 @@ app.use(compose([
     if (!asciiInput) throw [CLIENT_ERROR, 'no ascii text provided'];
     return await getSvg(asciiInput);
   },
+  urlParamsParser(/^\/(render\/)?(?<type>[^/]+)\/(?<data>[\s\S]+)$/i),
   async (ctx) => {
-    ctx.STEP = 'parser';
+    ctx.STEP = 'decoder';
 
-    const { type: dataType, data: escapedData } = ctx.query;
-    const data = decodeURIComponent(escapedData);
+    const dataType = ctx.urlParams.type;
+    const data = decodeURIComponent(ctx.urlParams.data);
     const escapedAscii = parser.parseUriEscapedAscii(data);
 
     if (dataType === 'raw') return escapedAscii;

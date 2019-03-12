@@ -80,6 +80,14 @@ const helpers = {
       ]);
     }
   },
+  urlParamsParser(pattern) {
+    return async (ctx, next) => {
+      ctx.STEP = 'params parser';
+      const matches = ctx.url.match(pattern);
+      ctx.urlParams = matches && matches.groups || {};
+      return await next();
+    };
+  }
 };
 
 module.exports = { ...helpers, CLIENT_ERROR };
