@@ -2,13 +2,13 @@
     "version": 2,
     "builds": [
       {
-        "src": "server.js",
+        "src": "render.js",
         "use": "@now/node",
         "config": { "maxLambdaSize": "50mb" }
       }
     ],
     "routes": [
-      { "src": "/[\\s\\S]*", "dest": "/server.js" }
+      { "src": "/render/[\\s\\S]+", "dest": "/render.js" }
     ],
     "alias": "asciitosvg.now.sh",
     "env": {

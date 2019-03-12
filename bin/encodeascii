@@ -8,8 +8,8 @@ const argv = require('yargs')
     yargs
       .option('format', { alias: 'f', default: 'raw' })
       .option('markdown', { alias: 'm' })
-      .option('host-origin', { alias: 'h', default: 'http://localhost:3000' })
-      .example('$0 -f raw -m < demo/input.txt')
+      .option('host-origin', { alias: 'h', default: 'https://asciitosvg.now.sh' })
+      .example('$0 -f raw -m -h http://localhost:3000 < demo/input.txt')
   }, encodeAscii)
   .help()
   .argv;
@@ -28,7 +28,7 @@ function encodeAscii(argv) {
       }
     })
     .then(argv.markdown
-      ? s => `![ascii diagram rendered with asciitosvg](${argv.hostOrigin}/${argv.format}/${s})`
+      ? s => `![ascii diagram rendered with asciitosvg](${argv.hostOrigin}/render/${argv.format}/${s})`
       : s => s)
     .then(console.log.bind(console));
 }

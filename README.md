@@ -6,7 +6,7 @@ The svg output is aligned to a grid, with all text in the system-default `monosp
 
 Automatically optimizes svg output using [SVGO][svgo], since the renderer produces inefficient SVG.
 
-Render either by executable or by server, which allows for ASCII diagrams embedded directly into markdown and rendered with no build step.
+Use either locally (executable version) or with the API, which allows for ASCII diagrams embedded directly into markdown and rendered with no build step.
 
 ## Executable Version
 
@@ -45,23 +45,21 @@ cargo install --git https://github.com/ivanceras/svgbob/ --path svgbob_cli
 
 🤔 -->
 
-## Server Version
+## API Version
 
 ```sh
 $ encodeascii -f raw -m < demo/input.txt
-![ascii diagram rendered with asciitosvg](http://localhost:3000/raw/\
+![ascii diagram rendered with asciitosvg](https://asciitosvg.now.sh/render/raw/\
 \.\-\-\-\-\-\-\-\-\-\-\-\-\-\.\
 \|\ \H\e\l\l\o\ \W\o\r\l\d\ \|\
 \|\ \ \ \ \ \ \ \ \.\-\-\-\-\+\
 \|\_\_\_\_\_\_\_\/)
-$ node server.js
-Listening...
 ```
 
 ```md
 If I were a pigeon and a glass of chalces and a black bag and we stepped outside and the crowd was going on. The snow was the last wood and he spoke. I was sure I thought he was going to sleep a little now and he could afford tomorrow while he hated.
 
-![ascii diagram rendered with asciitosvg](http://localhost:3000/raw/\
+![ascii diagram rendered with asciitosvg](https://asciitosvg.now.sh/render/raw/\
 \.\-\-\-\-\-\-\-\-\-\-\-\-\-\.\
 \|\ \H\e\l\l\o\ \W\o\r\l\d\ \|\
 \|\ \ \ \ \ \ \ \ \.\-\-\-\-\+\
@@ -70,11 +68,13 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 
 &darr;
 
-<pre>
 If I were a pigeon and a glass of chalces and a black bag and we stepped outside and the crowd was going on. The snow was the last wood and he spoke. I was sure I thought he was going to sleep a little now and he could afford tomorrow while he hated.
 
-<img src="./demo/output.svg">
-</pre>
+![ascii diagram rendered with asciitosvg](https://asciitosvg.now.sh/render/raw/\
+\.\-\-\-\-\-\-\-\-\-\-\-\-\-\.\
+\|\ \H\e\l\l\o\ \W\o\r\l\d\ \|\
+\|\ \ \ \ \ \ \ \ \.\-\-\-\-\+\
+\|\_\_\_\_\_\_\_\/)
 
 <sub>filler text generated using [Break the Block](https://codepen.io/jczimm/full/rKJjMM/)</sub>
 
@@ -89,9 +89,25 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 
 ## TODO
 
-- [ ] fix unicode format for ASCII encoding/rendering (not sure whether the problem is in ./bin/encodeascii or server.js)
-- [ ] add to README under Server Version: a **description of server/md img embed functionality** (copy about running the server and embedding diagrams in markdown img src)
-- [ ] write "Usage" text (USAGE) in server.js
-- [ ] server: put a form at path `"/"` with textarea to encode inputted ascii into a format of choice
-  - should leverage `routes` in `now.json`: route `/` to this html page (using static lambda) and `/[\\s\\S]+` to server.js
-  - the form should POST to a \[bash\] lambda running encodeascii and returning the result
+- [ ] fix unicode format for ASCII encoding/rendering (not sure whether the problem is in ./bin/encodeascii or render.js)
+- [ ] add to README under API Version: a **description of render.js/md img embed functionality** (copy about running the lambdas and embedding diagrams in markdown img src)
+- [ ] write "Usage" text (USAGE) in render.js
+
+- [ ] put a html landing page at `/` &mdash; include a link to `/edit`
+
+- [ ] create editor.js with routing `/edit/[\\s\\S]*`: serves textarea, encoding options, and encoder result
+  - redirect `/edit` to `/edit/`
+  - if there is data provided after the slash, pre-load the textarea with that
+  - the web app should be written using hyperapp
+  - the form should POST to a \[bash\] lambda at `/encode/[\\s\\S]+` running encodeascii and returning the result
+
+(should leverage `routes` in `now.json`: route `/` and `/edit` to their respective html pages (using static lambda) and `/render/[\\s\\S]+` to render.js)
+
+- [x] change server.js to render.js and change routing to `/render/[\\s\\S]+`
+  - [x] update encodeascii and README
+- [x] change encodeascii default host to asciitosvg.now.sh
+- [ ] npm publish 0.1.1 at a good milestone
+
+- [ ] accept color option (to make the lines and text white, instead of black, for example)
+- [ ] add support for using svgbob instead of asciitosvg for renderer
+- [ ] submit <asciitosvg.now.sh> to \[awesome-zeit\]
