@@ -1,4 +1,5 @@
 const compose = require('koa-compose');
+const NamedRegExp = require('named-regexp-groups')
 
 const CLIENT_ERROR = Symbol('CLIENT_ERROR');
 
@@ -80,7 +81,8 @@ const helpers = {
       ]);
     }
   },
-  urlParamsParser(pattern) {
+  urlParamsParser(patternStr) {
+    const pattern = new NamedRegExp(patternStr, 'i');
     return async (ctx, next) => {
       ctx.STEP = 'params parser';
       const matches = ctx.url.match(pattern);

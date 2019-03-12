@@ -31,7 +31,7 @@ app.use(compose([
     if (!asciiInput) throw [CLIENT_ERROR, 'no ascii text provided'];
     return await getSvg(asciiInput);
   },
-  urlParamsParser(/^\/(render\/)?(?<type>[^/]+)\/(?<data>[\s\S]+)$/i),
+  urlParamsParser('^/(render/)?(?<type>[^/]+)/(?<data>[\\s\\S]+)$'),
   async (ctx) => {
     ctx.STEP = 'decoder';
 

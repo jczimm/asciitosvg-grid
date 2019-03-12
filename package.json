@@ -16,6 +16,7 @@
     "get-stdin": "^6.0.0",
     "koa": "^2.7.0",
     "koa-compose": "^4.1.0",
+    "named-regexp-groups": "^1.0.3",
     "puppeteer-core": "^1.13.0",
     "svgo": "^1.2.0"
   },
