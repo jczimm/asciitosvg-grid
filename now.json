@@ -6,5 +6,8 @@
     "routes": [
       { "src": "/[\\s\\S]*", "dest": "/server.js" }
     ],
-    "alias": "asciitosvg.now.sh"
+    "alias": "asciitosvg.now.sh",
+    "env": {
+        "NODE_ENV": "production"
+    }
   }

@@ -72,9 +72,9 @@ app.use((ctx) => {
   ctx.body = ctx.svgOutput;
 });
 
-if (process.env.NOW) {
-  module.exports = app.callback();
-} else {
+if (process.env.NODE_ENV === 'development') {
   app.listen(3000);
   console.log('Listening...');
 }
+
+module.exports = app.callback();
