@@ -4,7 +4,7 @@
     { "src": "api/*.js", "use": "@now/node", "config": { "maxLambdaSize": "50mb" } }
   ],
   "routes": [
-    { "src": "/render/(?<type>[^/]+)/(?<data>[\\s\\S]+)", "dest": "/api/render?type=$type&data=$data", "methods": ["GET"] }
+    { "src": "/render/(?<type>[^/]+)/(?<data>[\\s\\S]+)", "dest": "/api/render.js?type=$type&data=$data", "methods": ["GET"] },
   ],
   "alias": "asciitosvg.now.sh",
   "env": { "IS_NOW": "true" },

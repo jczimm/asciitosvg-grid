@@ -40,9 +40,9 @@ app.use(compose([
   }
 ]));
 
-if (require.main === module) {
+if (process.env.IS_NOW) {
+  module.exports = app.callback();
+} else {
   app.listen(3000);
   console.log('Listening...');
-} else {
-  module.exports = app.callback();
 }
