@@ -1,5 +1,6 @@
 const { join } = require('path');
-const { createBrowser } = require('./puppeteer-helper');
+const helpers = require('./helpers');
+const { createBrowser } = helpers;
 
 const SVGO = require('svgo');
 // I don't think there will ever be a <style> in the output already, but just in case... they're optimal here
@@ -67,6 +68,8 @@ const getSvgFromAscii = async (asciiInput) => {
   return await optimizeSvg(svg);
 };
 
-const parser = require('./parser');
-
-module.exports = { getSvg: getSvgFromAscii, parser };
+module.exports = {
+  getSvg: getSvgFromAscii,
+  parser: require('./parser'),
+  helpers,
+};

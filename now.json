@@ -1,22 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "src/lambdas/*.js",
-        "use": "@now/node",
-        "config": { "maxLambdaSize": "50mb" }
-      }
-    ],
-    "routes": [
-      { "src": "/render/[\\s\\S]+", "dest": "/render.js" }
-    ],
-    "alias": "asciitosvg.now.sh",
-    "env": {
-      "IS_NOW": "true"
-    },
-    "build": {
-        "env": {
-          "NODE_ENV": "production"
-        }
-    }
-  }
+  "version": 2,
+  "builds": [
+    { "src": "api/*.js", "use": "@now/node", "config": { "maxLambdaSize": "50mb" } }
+  ],
+  "routes": [
+    { "src": "/render/(?<type>[^/]+)/(?<data>[\\s\\S]+)", "dest": "/api/render?type=$type&data=$data", "methods": ["GET"] }
+  ],
+  "alias": "asciitosvg.now.sh",
+  "env": { "IS_NOW": "true" },
+  "build": { "env": { "NODE_ENV": "production" } }
+}
