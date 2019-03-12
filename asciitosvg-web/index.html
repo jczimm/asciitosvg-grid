@@ -1,24 +1,53 @@
 <html>
 
 <head>
-	<title>Ascii to SVG</title>
-	<script src="main.js"> </script>
+    <title>Ascii to SVG</title>
+    <script src="main.js"> </script>
 </head>
 
 <body>
-	<div id="elm"></div>
-	<script>
-		const app = Elm.Main.embed(document.getElementById('elm'));
-		const getSvg = asciiText => new Promise((ok) => {
-			app.ports.receiveAsciiText.send(asciiText);
-			const svg = document.querySelector('svg');
-			svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-			svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-			setTimeout(() => ok(svg.outerHTML), 100);
-			// HACK (well... this entire thing is a hack)
-			// this is just waiting for the svg to update...
-		});
-	</script>
+    <div id="elm"></div>
+    <script>
+        (window.NanoEvents=function NanoEvents(){this.events={}}).prototype={emit:function emit(t){var n=[].slice.call(arguments,1);[].slice.call(this.events[t]||[]).filter(function(t){t.apply(this,n)})},on:function on(t,n){if(typeof n!=="function"){throw new Error("Listener must be a function")}(this.events[t]=this.events[t]||[]).push(n);return function(){this.events[t]=this.events[t].filter(function(t){return t!==n})}.bind(this)}};
+    </script>
+    <script>
+        {
+            let watcher, observer;
+            window.observe = function observe({ el, options, onMutation }) {
+                watcher = watcher || new NanoEvents();
+                observer = observer || new MutationObserver(mutations => mutations.map(m => watcher.emit('mutation', m)));
+                const unbind = watcher.on('mutation', m => onMutation(m, () => unbind(), observer.disconnect()));
+                observer.observe(el, options);
+            }
+        }
+    </script>
+    <script>
+        const elmEl = document.getElementById('elm');
+        const app = Elm.Main.embed(elmEl);
+
+        const getSvgData = () => {
+            const svg = document.querySelector('svg');
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+            return svg.outerHTML;
+        };
+
+        const getSvg = asciiText => new Promise((ok, err) => {
+            const errTimeout = setTimeout(() => err('Timed out'), 10000);
+            observe({
+                el: elmEl,
+                options: { subtree: true, childList: true },
+                onMutation(mutation, stopObserving) {
+                    if (mutation.target.tagName === 'svg') {
+                        stopObserving();
+                        clearTimeout(errTimeout);
+                        ok(getSvgData());
+                    }
+                }
+            });
+            app.ports.receiveAsciiText.send(asciiText);
+        });
+    </script>
 </body>
 
 </html>

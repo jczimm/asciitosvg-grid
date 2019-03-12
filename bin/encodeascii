@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+const getStdin = require('get-stdin');
+const { parser } = require('..');
+
+const argv = require('yargs')
+  .command('$0', `Encode ASCII to allow embedding in image source in a markdown file, for use with asciitosvg.
+  Provide input via STDIN (see example).`, (yargs) => {
+    yargs
+      .option('format', { alias: 'f', default: 'raw' })
+      .option('markdown', { alias: 'm' })
+      .option('host-origin', { alias: 'h', default: 'http://localhost:3000' })
+      .example('$0 -f raw -m < demo/input.txt')
+  }, encodeAscii)
+  .help()
+  .argv;
+
+function encodeAscii(argv) {
+  return getStdin()
+    .then((asciiInput) => {
+      if (!asciiInput) throw new Error('No input provided');
+      switch (argv.format) {
+        case 'raw':
+          return parser.escapeAscii(asciiInput);
+        case 'base64':
+          return parser.util.btoa(asciiInput);
+        case 'unicode':
+          return parser.util.miniUni.encode(asciiInput);
+      }
+    })
+    .then(argv.markdown
+      ? s => `![ascii diagram rendered with asciitosvg](${argv.hostOrigin}/${argv.format}/${s})`
+      : s => s)
+    .then(console.log.bind(console));
+}

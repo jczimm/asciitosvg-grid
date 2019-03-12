@@ -2,7 +2,7 @@
 const getStdin = require('get-stdin');
 const { getSvg } = require('..');
 
-const input = process.stdin;
-if (!input) throw new Error('No input provided');
-
-getStdin().then(getSvg).then(o => console.log(o));
+getStdin().then(input => {
+  if (!input) throw new Error('No input provided');
+  return getSvg(input);
+}).then(o => console.log(o));
