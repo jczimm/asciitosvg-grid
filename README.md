@@ -108,6 +108,7 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 - [x] change encodeascii default host to asciitosvg.now.sh
 - [ ] npm publish 0.1.1 at a good milestone
 
+- [ ] in asciitosvg-web, automatically uglify and inline main.js into index.html @ head (using \[uglify 3\] and html-inline)
 - [ ] accept color option (to make the lines and text white, instead of black, for example)
 - [ ] add support for using svgbob instead of asciitosvg for renderer
 - [ ] submit <asciitosvg.now.sh> to \[awesome-zeit\]

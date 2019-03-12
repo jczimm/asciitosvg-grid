@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const { parser, getSvg } = require('.');
+const { parser, getSvg } = require('..');
 
 const app = new Koa();
 

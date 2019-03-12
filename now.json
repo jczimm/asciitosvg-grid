@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "render.js",
+        "src": "src/lambdas/*.js",
         "use": "@now/node",
         "config": { "maxLambdaSize": "50mb" }
       }
