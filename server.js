@@ -12,7 +12,12 @@ const respondUsage = (ctx, err, status = err ? 400 : 200) =>
   respond(ctx, status, (err ? `Error: ${err}\n\n` : '') + `Usage: ${USAGE}`);
 
 // now's cdn does the caching automatically
-if (!process.env.IS_NOW) {
+if (process.env.IS_NOW) {
+  app.use(async (ctx, next) => {
+    await next();
+    ctx.set('Cache-Control', 's-maxage=31536000, maxage=0');
+  });
+} else {
   const LRUCache = require('lru-cache');
   const cache = new LRUCache({
     maxAge: 30000 // global max age
@@ -29,17 +34,41 @@ if (!process.env.IS_NOW) {
 
   // try cache
   app.use(async (ctx, next) => {
-    if (await ctx.cashed()) return;
+    if (await ctx.cashed()) return; // koa-cash will respond with the cached version
     await next();
   });
 }
 
-// parse ascii input
+// respond
 app.use(async (ctx, next) => {
-  if (ctx.request.url === '/') return respondUsage(ctx);
+  await next();
+  if (ctx.errorMsg) {
+    respondUsage(ctx, ctx.errorMsg)
+  } else if (ctx.svgOutput) {
+    ctx.type = 'image/svg+xml';
+    ctx.body = ctx.svgOutput;
+  } else {
+    respondUsage(ctx);
+  }
+});
+
+// render svg
+app.use(async (ctx, next) => {
+  await next();
+  if (ctx.errorMsg) return;
+  try {
+    ctx.svgOutput = await getSvg(ctx.asciiInput || 'no ascii text provided');
+  } catch (err) {
+    ctx.errorMsg = `from SVG Render: ${err.message}`;
+  }
+});
+
+// parse ascii input
+app.use(async (ctx) => {
+  if (ctx.request.url === '/') return;
 
   const urlMatches = ctx.request.url.match(/^\/([^/]+)\/([\s\S]+)$/);
-  if (!urlMatches) return respondUsage(ctx, 'Bad path');
+  if (!urlMatches) return ctx.errorMsg = 'Bad path';
 
   const [_, dataType, escapedData] = urlMatches;
   const data = decodeURIComponent(escapedData);
@@ -53,25 +82,8 @@ app.use(async (ctx, next) => {
   } else if (dataType === 'unicode') {
     ctx.asciiInput = parser.util.miniUni.decode(escapedAscii);
   } else {
-    return respondUsage(ctx, 'Invalid data type');
+    ctx.errorMsg = 'Invalid data type';
   }
-  await next();
-});
-
-// render svg
-app.use(async (ctx, next) => {
-  try {
-    ctx.svgOutput = await getSvg(ctx.asciiInput || 'no ascii text provided');
-    await next();
-  } catch (err) {
-    return respondUsage(ctx, `from SVG Render: ${err.message}`);
-  }
-});
-
-// respond svg
-app.use((ctx) => {
-  ctx.type = 'image/svg+xml';
-  ctx.body = ctx.svgOutput;
 });
 
 if (process.env.IS_NOW) {

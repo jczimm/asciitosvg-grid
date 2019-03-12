@@ -4,7 +4,6 @@
       {
         "src": "server.js",
         "use": "@now/node",
-        "headers": { "cache-control": "s-maxage=31536000, maxage=0" },
         "config": { "maxLambdaSize": "40mb" }
       }
     ],
