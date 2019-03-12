@@ -8,7 +8,7 @@ Automatically optimizes svg output using [SVGO][svgo], since the renderer produc
 
 Render either by executable or by server, which allows for ASCII diagrams embedded directly into markdown and rendered with no build step.
 
-## Executable Usage
+## Executable Version
 
 ### Installation
 
@@ -68,7 +68,7 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 \|\_\_\_\_\_\_\_\/)
 ```
 
-<center>&darr;</center>
+&darr;
 
 <pre>
 If I were a pigeon and a glass of chalces and a black bag and we stepped outside and the crowd was going on. The snow was the last wood and he spoke. I was sure I thought he was going to sleep a little now and he could afford tomorrow while he hated.
@@ -76,7 +76,7 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 <img src="./demo/output.svg">
 </pre>
 
-<small>filler text generated using [Break the Block](https://codepen.io/jczimm/full/rKJjMM/)</small>
+<sub>filler text generated using [Break the Block](https://codepen.io/jczimm/full/rKJjMM/)</sub>
 
 ## License
 
