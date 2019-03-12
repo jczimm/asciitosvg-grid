@@ -12,7 +12,8 @@
     ],
     "alias": "asciitosvg.now.sh",
     "env": {
-        "IS_NOW": "true"
+        "IS_NOW": "true",
+        "NODE_ENV": "production"
     },
     "build": {
         "env": {
