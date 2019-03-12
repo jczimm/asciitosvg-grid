@@ -32,7 +32,7 @@
             return svg.outerHTML;
         };
 
-        const getSvg = asciiText => new Promise((ok, err) => {
+        window.getSvg = asciiText => new Promise((ok, err) => {
             const errTimeout = setTimeout(() => err('Timed out'), 10000);
             observe({
                 el: elmEl,
