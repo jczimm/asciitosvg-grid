@@ -4,7 +4,7 @@
       { "src": "server.js", "use": "@now/node" }
     ],
     "routes": [
-      { "src": "/[\s\S]*", "dest": "/server.js" }
+      { "src": "/[\\s\\S]*", "dest": "/server.js" }
     ],
     "alias": "asciitosvg.now.sh"
   }
