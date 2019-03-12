@@ -58,11 +58,23 @@ const optimizeSvg = async (svg, { styleTag = false } = {}) => {
 const getSvgFromAscii = async (asciiInput) => {
   const browser = await createBrowser();
   const page = await browser.newPage();
-  await page.goto(PAGE_URL);
+
+  // TEMP
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    console.log(request.url());
+    request.continue();
+  });
+  page.on('requestfailed', request => {
+    console.log(request.url() + ' ' + request.failure().errorText);
+  });
   page.on('console', msg => {
     for (let i = 0; i < msg.args().length; ++i)
       console.log(`${i}: ${msg.args()[i]}`);
   });
+
+  await page.goto(PAGE_URL);
+
   const svg = await page.evaluate(ascii => window.getSvg(ascii), asciiInput);
   await browser.close();
   return await optimizeSvg(svg);
