@@ -1,5 +1,4 @@
 const Koa = require('koa');
-const LRUCache = require('lru-cache');
 const { parser, getSvg } = require('.');
 
 const app = new Koa();
@@ -9,30 +8,33 @@ const respond = (ctx, status, body) => {
   ctx.status = status;
 };
 const USAGE = 'TODO';
-const respondUsage = (ctx, err, status = err ? 400 : 200) => respond(ctx, status, `Error: ${err}
+const respondUsage = (ctx, err, status = err ? 400 : 200) =>
+  respond(ctx, status, (err ? `Error: ${err}\n\n` : '') + `Usage: ${USAGE}`);
 
-Usage: ${USAGE}`);
+// now's cdn does the caching automatically
+if (!process.env.IS_NOW) {
+  const LRUCache = require('lru-cache');
+  const cache = new LRUCache({
+    maxAge: 30000 // global max age
+  });
 
-const cache = new LRUCache({
-  maxAge: 30000 // global max age
-});
+  app.use(require('koa-cash')({
+    get (key, maxAge) {
+      return cache.get(key);
+    },
+    set (key, value) {
+      cache.set(key, value);
+    },
+  }));
 
-app.use(require('koa-cash')({
-  get (key, maxAge) {
-    return cache.get(key);
-  },
-  set (key, value) {
-    cache.set(key, value);
-  },
-}));
+  // try cache
+  app.use(async (ctx, next) => {
+    if (await ctx.cashed()) return;
+    await next();
+  });
+}
 
-// try cache
-app.use(async (ctx, next) => {
-  if (await ctx.cashed()) return;
-  await next();
-});
-
-// parse
+// parse ascii input
 app.use(async (ctx, next) => {
   if (ctx.request.url === '/') return respondUsage(ctx);
 
@@ -72,9 +74,11 @@ app.use((ctx) => {
   ctx.body = ctx.svgOutput;
 });
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.IS_NOW) {
+  module.exports = app.callback();
+} else {
   app.listen(3000);
   console.log('Listening...');
 }
 
-module.exports = app.callback();
+

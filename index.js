@@ -1,7 +1,9 @@
 const { join } = require('path');
-const puppeteer = require('puppeteer');
+const { createBrowser } = require('./puppeteer-helper');
+
 const SVGO = require('svgo');
-let svgo;
+// I don't think there will ever be a <style> in the output already, but just in case... they're optimal here
+const svgo = new SVGO({ plugins: [{ inlineStyles: false }] });
 
 const PAGE_URL = `file:${join(__dirname, 'asciitosvg-web/index.html')}`;
 
@@ -23,8 +25,6 @@ const styleBlock = `<style>${
 }</style>`;
 
 const optimizeSvg = async (svg, { styleTag = false } = {}) => {
-  // I don't think there will ever be a <style> in the output already, but just in case... they're optimal for us 
-  svgo = svgo || new SVGO({ plugins: [{ inlineStyles: false }] });
   let optiSvg = (await svgo.optimize(svg)).data;
   optiSvg = (await svgo.optimize(optiSvg)).data;
   
@@ -55,15 +55,11 @@ const optimizeSvg = async (svg, { styleTag = false } = {}) => {
 }
 
 const getSvg = async (asciiInput) => {
-  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
-  // I'm not using a sandbox for puppeteer because I absolutely trust the content I'm viewing--it's all local
-  // (not using a sandbox for pupeteer is almost always a bad practice and may be even here)
-
+  const browser = await createBrowser();
   const page = await browser.newPage();
   await page.goto(PAGE_URL);
   const svg = await page.evaluate(async ascii => getSvg(ascii), asciiInput);
   await browser.close();
-  
   return await optimizeSvg(svg);
 };
 

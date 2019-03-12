@@ -1,13 +1,23 @@
 {
     "version": 2,
     "builds": [
-      { "src": "server.js", "use": "@now/node" }
+      {
+        "src": "server.js",
+        "use": "@now/node",
+        "headers": { "cache-control": "s-maxage=31536000, maxage=0" },
+        "config": { "maxLambdaSize": "40mb" }
+      }
     ],
     "routes": [
       { "src": "/[\\s\\S]*", "dest": "/server.js" }
     ],
     "alias": "asciitosvg.now.sh",
     "env": {
-        "NODE_ENV": "production"
+        "IS_NOW": true
+    },
+    "build": {
+        "env": {
+            "NODE_ENV": "production"
+        }
     }
   }

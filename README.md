@@ -89,5 +89,9 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 
 ## TODO
 
-- [ ] fix unicode format for ASCII encoding/rendering (not sure whether the problem is in ./bin/encodeAscii or server.js)
+- [ ] fix unicode format for ASCII encoding/rendering (not sure whether the problem is in ./bin/encodeascii or server.js)
 - [ ] add to README under Server Version: a **description of server/md img embed functionality** (copy about running the server and embedding diagrams in markdown img src)
+- [ ] write "Usage" text (USAGE) in server.js
+- [ ] server: put a form at path `"/"` with textarea to encode inputted ascii into a format of choice
+  - should leverage `routes` in `now.json`: route `/` to this html page (using static lambda) and `/[\\s\\S]+` to server.js
+  - the form should POST to a \[bash\] lambda running encodeascii and returning the result

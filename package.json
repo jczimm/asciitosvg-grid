@@ -10,8 +10,12 @@
   "author": "jczimm",
   "license": "MIT",
   "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "chrome-aws-lambda": "^1.13.0",
     "get-stdin": "^6.0.0",
-    "puppeteer": "^1.13.0",
+    "koa": "^2.7.0",
+    "puppeteer-core": "^1.13.0",
     "svgo": "^1.2.0"
   },
   "repository": {
@@ -23,9 +27,7 @@
   },
   "homepage": "https://github.com/jczimm/asciitosvg-grid",
   "devDependencies": {
-    "atob": "^2.1.2",
-    "btoa": "^1.2.1",
-    "koa": "^2.7.0",
+    "puppeteer": "^1.13.0",
     "koa-cash": "^3.1.0-0",
     "lru-cache": "^5.1.1",
     "yargs": "^13.2.2"
