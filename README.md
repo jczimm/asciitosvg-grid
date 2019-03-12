@@ -70,11 +70,7 @@ If I were a pigeon and a glass of chalces and a black bag and we stepped outside
 
 If I were a pigeon and a glass of chalces and a black bag and we stepped outside and the crowd was going on. The snow was the last wood and he spoke. I was sure I thought he was going to sleep a little now and he could afford tomorrow while he hated.
 
-![ascii diagram rendered with asciitosvg](https://asciitosvg.now.sh/render/raw/\
-\.\-\-\-\-\-\-\-\-\-\-\-\-\-\.\
-\|\ \H\e\l\l\o\ \W\o\r\l\d\ \|\
-\|\ \ \ \ \ \ \ \ \.\-\-\-\-\+\
-\|\_\_\_\_\_\_\_\/)
+![same output as output.svg from demo](./demo/output.svg)
 
 <sub>filler text generated using [Break the Block](https://codepen.io/jczimm/full/rKJjMM/)</sub>
 
